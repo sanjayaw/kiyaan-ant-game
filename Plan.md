@@ -83,4 +83,10 @@ Threats spawn more often as the game progresses.
 
 ## Current status
 
-**Phase 1 — Cursor prompt ready to hand off.** Next: Kiyaan runs the Phase 1 prompt in Cursor, returns status report.
+**Phases 1 + 2 shipped to `main`.** Game currently runs with a Queen, 5 wandering workers, animated procedural sprites, clickable food dropping, workers that gather and deposit food, and a live HUD. Phase 3 (eggs + castes) now in progress on `feature/phase-3-eggs-and-castes`.
+
+### Phase 3 design decisions (locked)
+- Egg economy: **3 food** per egg, **10 second** hatch time
+- UI: **right sidebar** command panel outside the canvas
+- Castes: **visual-only in Phase 3** (all behave like workers; divergence comes in Phase 4-5)
+- Ant selection: **deferred to Phase 4** (bundled with combat orders)
