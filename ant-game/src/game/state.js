@@ -24,30 +24,45 @@ function randomTarget() {
   };
 }
 
+// Factory for a single ant. Reused by state.js and eggs.js when hatching.
+export function makeAnt({ id, caste, x, y, targetX, targetY }) {
+  return {
+    id,
+    caste,
+    x,
+    y,
+    targetX,
+    targetY,
+    facingAngle: 0,
+    legPhase: Math.random() * Math.PI * 2,
+    carrying: false,
+    targetFoodId: null,
+  };
+}
+
 export function createInitialState() {
   const ants = [];
   for (let i = 0; i < STARTING_WORKERS; i++) {
     const start = randomPointInNest();
     const target = randomTarget();
-    ants.push({
+    ants.push(makeAnt({
       id: i,
       caste: 'worker',
       x: start.x,
       y: start.y,
       targetX: target.x,
       targetY: target.y,
-      facingAngle: 0,          // which way the ant is pointing
-      legPhase: Math.random() * Math.PI * 2,
-      carrying: false,         // is this ant hauling a crumb?
-      targetFoodId: null,      // if claiming a food item, its id
-    });
+    }));
   }
 
   return {
     queen: { x: NEST_X, y: NEST_Y },
     ants,
+    eggs: [],              // eggs currently incubating in the nest
     food: [],                  // active food crumbs on the map
-    foodStored: 0,             // crumbs delivered to the nest
+    foodStored: 0,
+    nextAntId: STARTING_WORKERS,
+    nextEggId: 1,
     nextFoodId: 1,
     tick: 0,
   };

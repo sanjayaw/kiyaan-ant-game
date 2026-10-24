@@ -1,10 +1,20 @@
-// Draws a worker ant. Faces its stored facingAngle, has animated legs,
-// and shows a little crumb on its back when it's carrying food.
+// Draws any caste of worker ant. The body and abdomen color depend on
+// ant.caste; everything else is identical.
 
 import { LEG_LENGTH, COLORS } from '../constants.js';
 
+function antColors(caste) {
+  switch (caste) {
+    case 'soldier': return { body: COLORS.soldierBody, dark: COLORS.soldierDark };
+    case 'nurse':   return { body: COLORS.nurseBody,   dark: COLORS.nurseDark };
+    case 'forager': return { body: COLORS.foragerBody, dark: COLORS.foragerDark };
+    default:        return { body: COLORS.workerBody,  dark: COLORS.workerDark };
+  }
+}
+
 export function drawAnt(ctx, ant, tick) {
   const walk = Math.sin(tick * 0.3 + ant.legPhase);
+  const { body, dark } = antColors(ant.caste);
 
   ctx.save();
   ctx.translate(ant.x, ant.y);
@@ -16,7 +26,7 @@ export function drawAnt(ctx, ant, tick) {
   ctx.ellipse(0, 2, 8, 2.5, 0, 0, Math.PI * 2);
   ctx.fill();
 
-  // Legs (tripod gait: front+back swing one way, middle swings the other)
+  // Legs (tripod gait)
   ctx.strokeStyle = COLORS.antLeg;
   ctx.lineWidth = 1;
   const legX = [3, 0, -3];
@@ -35,13 +45,13 @@ export function drawAnt(ctx, ant, tick) {
   }
 
   // Abdomen
-  ctx.fillStyle = COLORS.workerDark;
+  ctx.fillStyle = dark;
   ctx.beginPath();
   ctx.ellipse(-4, 0, 3.5, 2.8, 0, 0, Math.PI * 2);
   ctx.fill();
 
   // Thorax
-  ctx.fillStyle = COLORS.workerBody;
+  ctx.fillStyle = body;
   ctx.beginPath();
   ctx.arc(0, 0, 2.2, 0, Math.PI * 2);
   ctx.fill();
@@ -61,7 +71,7 @@ export function drawAnt(ctx, ant, tick) {
   ctx.lineTo(6.5, 2.5);
   ctx.stroke();
 
-  // If carrying food, draw a crumb on the ant's back.
+  // Carried crumb
   if (ant.carrying) {
     ctx.fillStyle = COLORS.foodCrumbDark;
     ctx.beginPath();

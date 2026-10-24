@@ -4,6 +4,15 @@ All notable changes to the Ant Colony Game.
 
 ## [Unreleased]
 
+### Phase 3 — Eggs + castes
+- Right-side `CommandPanel` with four "Lay Egg" buttons (Worker / Soldier / Nurse / Forager)
+- Egg economy: 3 food per egg, 10-second hatch (`EGG_COST`, `EGG_HATCH_TICKS`)
+- Eggs render in the nest as cream ovals with a caste-colored dot
+- Hatched ants spawn with their caste color (brown / red / white / yellow)
+- HUD gained a `🥚 Eggs` row showing active incubations
+- Engine exposes `layEgg(caste)` API; buttons disable when food < 3
+- Castes share worker behavior for now (visual-only, per design)
+
 ### Phase 2 — Food + gather loop
 - Left-click anywhere to drop food crumbs
 - Workers claim the nearest unclaimed crumb, haul it to the nest, deposit it
