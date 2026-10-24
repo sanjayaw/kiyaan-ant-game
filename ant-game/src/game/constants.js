@@ -12,6 +12,18 @@ export const ANT_SPEED = 0.5;
 export const LEG_LENGTH = 4;
 export const FOOD_PICKUP_DIST = 3;
 
+// Egg economy
+export const EGG_COST = 3;              // food crumbs per egg
+export const EGG_HATCH_TICKS = 600;     // ~10 seconds at 60fps
+
+export const CASTES = ['worker', 'soldier', 'nurse', 'forager'];
+export const CASTE_LABELS = {
+  worker:  'Worker',
+  soldier: 'Soldier',
+  nurse:   'Nurse',
+  forager: 'Forager',
+};
+
 export const COLORS = {
   // Ground
   soil: '#2d1810',
@@ -31,14 +43,22 @@ export const COLORS = {
   queenDark: '#c8991b',
   queenCrown: '#fff0a8',
 
-  // Workers
-  workerBody: '#a0522d',
-  workerDark: '#7a3f20',
+  // Castes (each has a bright body + a darker abdomen shade)
+  workerBody:  '#a0522d', workerDark:  '#7a3f20',
+  soldierBody: '#c53030', soldierDark: '#8f1f1f',
+  nurseBody:   '#e5e5dc', nurseDark:   '#b8b8ad',
+  foragerBody: '#d4a017', foragerDark: '#9b7510',
+
+  // Legs (shared)
   antLeg: '#4a2814',
 
   // Food
   foodCrumb: '#f0e5c8',
   foodCrumbDark: '#c7b482',
+
+  // Eggs
+  eggShell: '#f3ead3',
+  eggShellDark: '#c9bf9d',
 
   // Effects
   shadow: 'rgba(0, 0, 0, 0.35)',

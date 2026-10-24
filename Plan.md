@@ -83,10 +83,11 @@ Threats spawn more often as the game progresses.
 
 ## Current status
 
-**Phases 1 + 2 shipped to `main`.** Game currently runs with a Queen, 5 wandering workers, animated procedural sprites, clickable food dropping, workers that gather and deposit food, and a live HUD. Phase 3 (eggs + castes) now in progress on `feature/phase-3-eggs-and-castes`.
+**Phases 1-3 shipped to `main`.** Game now runs with a Queen, procedural animated ants, click-to-drop food gather loop, 4 castes (visual-only), and an egg system that costs food and hatches on a timer. Phase 4 (threats + combat) in progress on `feature/phase-4-threats-and-combat`.
 
-### Phase 3 design decisions (locked)
-- Egg economy: **3 food** per egg, **10 second** hatch time
-- UI: **right sidebar** command panel outside the canvas
-- Castes: **visual-only in Phase 3** (all behave like workers; divergence comes in Phase 4-5)
-- Ant selection: **deferred to Phase 4** (bundled with combat orders)
+### Phase 4 design decisions (locked)
+- Bug roster: **all 5** (Spider, Beetle, Centipede, Rival Ant, Wasp)
+- Combat: **automatic** (soldiers auto-engage threats; workers flee)
+- Spawn pacing: **escalating** (first bug at 20s, interval shortens over time, later bugs unlock at 60s and 120s)
+- Game over: **modal overlay** with stats + Restart button
+- Ant selection: deferred further (not needed with auto-combat)
