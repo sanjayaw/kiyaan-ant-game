@@ -10,7 +10,8 @@ export default function Game({ onRestart }) {
   const gameRef = useRef(null);
   const [hud, setHud] = useState({
     food: 0, colony: 0, eggs: 0, time: 0,
-    queenHp: QUEEN_MAX_HP, queenMaxHp: QUEEN_MAX_HP, threats: 0,
+    queenHp: QUEEN_MAX_HP, queenMaxHp: QUEEN_MAX_HP,
+    threats: 0, chambers: 0,
   });
   const [gameOver, setGameOver] = useState(null);
 
@@ -32,6 +33,10 @@ export default function Game({ onRestart }) {
     gameRef.current.layEgg(caste);
   }
 
+  function handleDigChamber(type) {
+    gameRef.current.digChamber(type);
+  }
+
   return (
     <div className="game-wrapper">
       <div className="game-row">
@@ -45,9 +50,13 @@ export default function Game({ onRestart }) {
           />
           {gameOver && <GameOver stats={gameOver} onRestart={onRestart} />}
         </div>
-        <CommandPanel food={hud.food} onLayEgg={handleLayEgg} />
+        <CommandPanel
+          food={hud.food}
+          onLayEgg={handleLayEgg}
+          onDigChamber={handleDigChamber}
+        />
       </div>
-      <p className="hint">Click dirt for food. Lay soldiers before bugs reach the queen.</p>
+      <p className="hint">Click dirt for food. Lay eggs. Dig chambers for bonuses.</p>
     </div>
   );
 }

@@ -61,28 +61,39 @@ canvas {
 
 /* --- Command panel --- */
 .command-panel {
-  width: 180px;
+  width: 190px;
   background: #1a1a1a;
   border: 2px solid #444;
   border-radius: 6px;
   padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
-.panel-title { margin: 0; font-size: 16px; color: #f5c842; }
-.panel-subtitle { margin: 0 0 6px 0; font-size: 12px; color: #999; }
+
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.panel-section:not(:first-child) {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #333;
+}
+
+.panel-title { margin: 0; font-size: 15px; color: #f5c842; }
+.panel-subtitle { margin: 0 0 4px 0; font-size: 11px; color: #999; }
 
 .egg-button {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 10px;
+  padding: 7px 10px;
   background: #2a2a2a;
   border: 1px solid #444;
   border-radius: 4px;
   color: #eee;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
 }
 .egg-button:hover:not(:disabled) { background: #3a3a2a; }

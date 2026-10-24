@@ -1,5 +1,7 @@
 import { drawBackground } from './render/background.js';
 import { drawNest } from './render/nest.js';
+import { drawTunnel } from './render/tunnel.js';
+import { drawChamber } from './render/chamber.js';
 import { drawFood } from './render/food.js';
 import { drawEgg } from './render/egg.js';
 import { drawAnt } from './render/ant.js';
@@ -9,7 +11,12 @@ import { drawHpBar } from './render/hpbar.js';
 
 export function drawFrame(ctx, state) {
   drawBackground(ctx);
+
+  // Tunnels sit under the nest and chambers; both will cover the endpoints.
+  for (const c of state.chambers) drawTunnel(ctx, c);
   drawNest(ctx);
+  for (const c of state.chambers) drawChamber(ctx, c, state.tick);
+
   drawFood(ctx, state.food);
   for (const egg of state.eggs) drawEgg(ctx, egg);
   for (const ant of state.ants) drawAnt(ctx, ant, state.tick);

@@ -4,6 +4,17 @@ All notable changes to the Ant Colony Game.
 
 ## [Unreleased]
 
+### Phase 5 — Colony expansion + distinct caste behaviors
+- Three chamber types: Nursery, Food Store, Barracks (10 food, 15s build, stacking)
+- Chambers placed at random free spots adjacent to the nest; dirt tunnels connect each one to the main nest
+- Nursery halves egg hatch time per chamber (floor 2s); Food Store adds +1 to food per deposit; Barracks adds +2 to soldier damage
+- CommandPanel now has two sections: Lay Egg + Dig Chamber, split by a divider
+- HUD payload includes active chamber count
+- Procedural chamber renderer with "under construction" state (dashed outline + progressive fill) and "active" state (dirt rim + colored accent + per-type icon: egg / crumbs / crossed X)
+- **Caste behavior divergence** (bonus pass):
+  - Foragers move 40% faster and prefer food farthest from the nest (true scouting)
+  - Nurses heal damaged ants + queen within range (1 HP every 0.5s); fall back to food gathering when nothing is injured
+
 ### Phase 4 — Threats + combat
 - Five enemy bug types: Spider, Beetle, Centipede, Rival Ant, Wasp — each with distinct HP / damage / speed / unlock time
 - Escalating spawn pacing: first bug at 20s, interval shrinks by 1s per spawn, floored at 5s

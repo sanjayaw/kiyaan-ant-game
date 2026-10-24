@@ -83,13 +83,9 @@ Threats spawn more often as the game progresses.
 
 ## Current status
 
-**Phases 1-4 shipped to `main`.** Game is now a playable survival loop: queen, 4 castes, food gather, 5 bug types with escalating spawns, auto-combat, HP bars, game over + restart. Phase 5 (colony expansion / chambers) in progress on `feature/phase-5-colony-expansion`.
+**Phases 1-5 shipped to `main`.** Game is a complete C&C-style colony sim: queen, 4 castes with distinct behaviors, food gather, 5 bug types with escalating spawns, auto-combat, 3 chamber types with stacking bonuses, game over + restart. Phase 6 (final: ambient food system + polish) in progress on `feature/phase-6-polish`.
 
-### Phase 5 design decisions (locked)
-- Three chamber types: **Nursery, Food Store, Barracks**
-- Cost: **10 food each**; build time: **15 seconds**; chambers **stack** (multiple of same type compound their bonuses)
-- Placement: **random spot adjacent to the nest** (no click-to-place UI yet)
-- Bonuses:
-  - **Nursery** — each one halves egg hatch time (minimum 2s)
-  - **Food Store** — each one adds +1 to food gained per worker deposit
-  - **Barracks** — each one adds +2 to soldier attack damage
+### Phase 6 scope (locked)
+Primary gameplay pivot from Sunny's playtesting: the click-to-drop food loop is tedious. Phase 6 adds a passive food system so the player manages the colony rather than clicks continuously.
+
+Supporting polish items (prioritize if time): start screen w/ how-to + high score, score formula = time × peak colony × (threats defeated + 1), pause button, chamber counts by type in HUD.

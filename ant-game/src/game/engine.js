@@ -1,12 +1,15 @@
 import { createInitialState } from './state.js';
 import { updateAnts } from './ants.js';
 import { updateEggs } from './eggs.js';
+import { updateChambers, findChamberSpot } from './chambers.js';
 import { updateThreats, updateSpawner, initSpawner } from './combat.js';
 import { drawFrame } from './render.js';
 import {
-  EGG_COST, EGG_HATCH_TICKS,
+  EGG_COST,
   NEST_X, NEST_Y, NEST_RADIUS,
   CASTES,
+  CHAMBER_TYPES,
+  CHAMBER_COST,
 } from './constants.js';
 
 export function startGame(canvas, onHudUpdate, onGameOver) {
@@ -25,6 +28,7 @@ export function startGame(canvas, onHudUpdate, onGameOver) {
       queenHp: state.queen.hp,
       queenMaxHp: state.queen.maxHp,
       threats: state.threats.length,
+      chambers: state.chambers.filter(c => c.state === 'active').length,
     };
     if (
       hud.food !== lastHud.food ||
@@ -32,7 +36,8 @@ export function startGame(canvas, onHudUpdate, onGameOver) {
       hud.eggs !== lastHud.eggs ||
       hud.time !== lastHud.time ||
       hud.queenHp !== lastHud.queenHp ||
-      hud.threats !== lastHud.threats
+      hud.threats !== lastHud.threats ||
+      hud.chambers !== lastHud.chambers
     ) {
       lastHud = hud;
       if (onHudUpdate) onHudUpdate(hud);
@@ -64,6 +69,7 @@ export function startGame(canvas, onHudUpdate, onGameOver) {
     state.tick++;
     updateAnts(state);
     updateEggs(state);
+    updateChambers(state);
     updateSpawner(state);
     updateThreats(state);
     updateStats();
@@ -99,9 +105,27 @@ export function startGame(canvas, onHudUpdate, onGameOver) {
         x: NEST_X + Math.cos(angle) * r,
         y: NEST_Y + Math.sin(angle) * r,
         caste,
-        hatchTick: state.tick + EGG_HATCH_TICKS,
+        layTick: state.tick,
       });
       state.stats.eggsLaid += 1;
+      return true;
+    },
+
+    digChamber: (type) => {
+      if (state.gameOver) return false;
+      if (!CHAMBER_TYPES.includes(type)) return false;
+      if (state.foodStored < CHAMBER_COST) return false;
+      const spot = findChamberSpot(state);
+      if (!spot) return false; // no room -- don't charge
+      state.foodStored -= CHAMBER_COST;
+      state.chambers.push({
+        id: state.nextChamberId++,
+        type,
+        x: spot.x,
+        y: spot.y,
+        state: 'building',
+        layTick: state.tick,
+      });
       return true;
     },
   };

@@ -1,5 +1,3 @@
-// All the numbers and colors the game uses.
-
 export const CANVAS_WIDTH = 800;
 export const CANVAS_HEIGHT = 600;
 
@@ -9,16 +7,30 @@ export const NEST_RADIUS = 70;
 export const NEST_DEPOSIT_RADIUS = NEST_RADIUS * 0.55;
 
 export const ANT_SPEED = 0.5;
+export const FORAGER_SPEED = 0.7; // 40% faster than other ants
 export const LEG_LENGTH = 4;
 export const FOOD_PICKUP_DIST = 3;
 
 export const EGG_COST = 3;
 export const EGG_HATCH_TICKS = 600;
+export const EGG_HATCH_FLOOR = 120;
 
 export const CASTES = ['worker', 'soldier', 'nurse', 'forager'];
 export const CASTE_LABELS = {
   worker: 'Worker', soldier: 'Soldier', nurse: 'Nurse', forager: 'Forager',
 };
+
+// --- Chambers ---
+export const CHAMBER_TYPES = ['nursery', 'foodstore', 'barracks'];
+export const CHAMBER_LABELS = {
+  nursery: 'Nursery', foodstore: 'Food Store', barracks: 'Barracks',
+};
+export const CHAMBER_COST = 10;
+export const CHAMBER_BUILD_TICKS = 900;
+export const CHAMBER_RADIUS = 25;
+export const CHAMBER_PLACEMENT_RING = 135;
+export const CHAMBER_SPACING = 60;
+export const BARRACKS_DAMAGE_BONUS = 2;
 
 // --- Health & combat ---
 export const QUEEN_MAX_HP = 100;
@@ -30,6 +42,11 @@ export const SOLDIER_ENGAGE_RANGE = 150;
 export const ATTACK_RANGE = 10;
 export const ATTACK_COOLDOWN = 60;
 export const WORKER_FLEE_RANGE = 50;
+
+// --- Nurse healing ---
+export const NURSE_HEAL_RANGE = 100;
+export const NURSE_HEAL_AMOUNT = 1;
+export const NURSE_HEAL_COOLDOWN = 30; // ~0.5s between heals
 
 // --- Threat spawning ---
 export const THREAT_SPAWN_FIRST = 1200;
@@ -68,6 +85,15 @@ export const COLORS = {
   centipedeBody: '#9b4b7a', centipedeDark: '#6a2e52',
   rivalBody: '#4a0000', rivalDark: '#2a0000',
   waspBody: '#f4c430', waspStripe: '#1a1a1a', waspWing: 'rgba(230, 230, 240, 0.55)',
+
+  chamberOuter: '#6a4428',
+  chamberMid: '#5a3a22',
+  chamberBuildingFill: 'rgba(90, 58, 34, 0.4)',
+  chamberBuildingOutline: 'rgba(240, 200, 100, 0.6)',
+  nurseryAccent: '#e5e5dc',
+  foodstoreAccent: '#f0e5c8',
+  barracksAccent: '#c53030',
+  tunnel: '#1a0d05',
 
   hpGreen: '#2a9d2a', hpRed: '#8b0000', hpBg: '#000',
 
