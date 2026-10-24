@@ -4,6 +4,17 @@ All notable changes to the Ant Colony Game.
 
 ## [Unreleased]
 
+### Phase 4 — Threats + combat
+- Five enemy bug types: Spider, Beetle, Centipede, Rival Ant, Wasp — each with distinct HP / damage / speed / unlock time
+- Escalating spawn pacing: first bug at 20s, interval shrinks by 1s per spawn, floored at 5s
+- Later bugs unlock at 60s (beetle) and 120s (centipede + wasp); rival ants spawn in groups of 2-3
+- Automatic combat: soldiers auto-engage threats within 150px, workers/foragers/nurses flee threats within 50px
+- HP system for ants, queen, and threats; damaged units show a red/green bar overhead
+- Queen HP bar in the HUD plus Time and Threats rows
+- Game Over overlay (dark + red border) with stats: time survived, peak colony, eggs laid, threats defeated
+- Restart via React key remount — fully fresh state, no leftover entities
+- All five bugs rendered procedurally: spider has 8 animated legs + red eyes, beetle has elytra seam + mandibles, centipede has 6 wiggling segments, wasp has translucent flapping wings + stinger, rival is a dark-red ant variant
+
 ### Phase 3 — Eggs + castes
 - Right-side `CommandPanel` with four "Lay Egg" buttons (Worker / Soldier / Nurse / Forager)
 - Egg economy: 3 food per egg, 10-second hatch (`EGG_COST`, `EGG_HATCH_TICKS`)
