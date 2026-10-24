@@ -83,11 +83,13 @@ Threats spawn more often as the game progresses.
 
 ## Current status
 
-**Phases 1-3 shipped to `main`.** Game now runs with a Queen, procedural animated ants, click-to-drop food gather loop, 4 castes (visual-only), and an egg system that costs food and hatches on a timer. Phase 4 (threats + combat) in progress on `feature/phase-4-threats-and-combat`.
+**Phases 1-4 shipped to `main`.** Game is now a playable survival loop: queen, 4 castes, food gather, 5 bug types with escalating spawns, auto-combat, HP bars, game over + restart. Phase 5 (colony expansion / chambers) in progress on `feature/phase-5-colony-expansion`.
 
-### Phase 4 design decisions (locked)
-- Bug roster: **all 5** (Spider, Beetle, Centipede, Rival Ant, Wasp)
-- Combat: **automatic** (soldiers auto-engage threats; workers flee)
-- Spawn pacing: **escalating** (first bug at 20s, interval shortens over time, later bugs unlock at 60s and 120s)
-- Game over: **modal overlay** with stats + Restart button
-- Ant selection: deferred further (not needed with auto-combat)
+### Phase 5 design decisions (locked)
+- Three chamber types: **Nursery, Food Store, Barracks**
+- Cost: **10 food each**; build time: **15 seconds**; chambers **stack** (multiple of same type compound their bonuses)
+- Placement: **random spot adjacent to the nest** (no click-to-place UI yet)
+- Bonuses:
+  - **Nursery** — each one halves egg hatch time (minimum 2s)
+  - **Food Store** — each one adds +1 to food gained per worker deposit
+  - **Barracks** — each one adds +2 to soldier attack damage

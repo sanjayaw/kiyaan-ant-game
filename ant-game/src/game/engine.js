@@ -1,48 +1,78 @@
-// Game engine. Owns the state, runs the loop, exposes a small API
-// for the React UI to send commands in.
-
 import { createInitialState } from './state.js';
 import { updateAnts } from './ants.js';
 import { updateEggs } from './eggs.js';
+import { updateThreats, updateSpawner, initSpawner } from './combat.js';
 import { drawFrame } from './render.js';
 import {
-  EGG_COST,
-  EGG_HATCH_TICKS,
-  NEST_X,
-  NEST_Y,
-  NEST_RADIUS,
+  EGG_COST, EGG_HATCH_TICKS,
+  NEST_X, NEST_Y, NEST_RADIUS,
   CASTES,
 } from './constants.js';
 
-export function startGame(canvas, onHudUpdate) {
+export function startGame(canvas, onHudUpdate, onGameOver) {
   const ctx = canvas.getContext('2d');
   const state = createInitialState();
+  initSpawner(state);
   let rafId;
-  let lastHud = { food: -1, colony: -1, eggs: -1 };
+  let lastHud = {};
 
   function emitHud() {
     const hud = {
       food: state.foodStored,
       colony: state.ants.length,
       eggs: state.eggs.length,
+      time: Math.floor(state.tick / 60),
+      queenHp: state.queen.hp,
+      queenMaxHp: state.queen.maxHp,
+      threats: state.threats.length,
     };
-    // Only re-render HUD when something actually changed.
     if (
       hud.food !== lastHud.food ||
       hud.colony !== lastHud.colony ||
-      hud.eggs !== lastHud.eggs
+      hud.eggs !== lastHud.eggs ||
+      hud.time !== lastHud.time ||
+      hud.queenHp !== lastHud.queenHp ||
+      hud.threats !== lastHud.threats
     ) {
       lastHud = hud;
       if (onHudUpdate) onHudUpdate(hud);
     }
   }
 
+  function updateStats() {
+    if (state.ants.length > state.stats.peakColony) {
+      state.stats.peakColony = state.ants.length;
+    }
+  }
+
+  function checkGameOver() {
+    if (state.gameOver) return true;
+    if (state.queen.hp <= 0) {
+      state.gameOver = {
+        timeSec: Math.floor(state.tick / 60),
+        peakColony: state.stats.peakColony,
+        eggsLaid: state.stats.eggsLaid,
+        threatsKilled: state.stats.threatsKilled,
+      };
+      if (onGameOver) onGameOver(state.gameOver);
+      return true;
+    }
+    return false;
+  }
+
   function loop() {
     state.tick++;
     updateAnts(state);
     updateEggs(state);
+    updateSpawner(state);
+    updateThreats(state);
+    updateStats();
     drawFrame(ctx, state);
     emitHud();
+    if (checkGameOver()) {
+      cancelAnimationFrame(rafId);
+      return;
+    }
     rafId = requestAnimationFrame(loop);
   }
   loop();
@@ -51,20 +81,17 @@ export function startGame(canvas, onHudUpdate) {
     stop: () => cancelAnimationFrame(rafId),
 
     dropFood: (x, y) => {
+      if (state.gameOver) return;
       state.food.push({
-        id: state.nextFoodId++,
-        x,
-        y,
-        claimedBy: null,
+        id: state.nextFoodId++, x, y, claimedBy: null,
       });
     },
 
     layEgg: (caste) => {
+      if (state.gameOver) return false;
       if (!CASTES.includes(caste)) return false;
       if (state.foodStored < EGG_COST) return false;
       state.foodStored -= EGG_COST;
-
-      // Put the egg somewhere in the inner nest chamber.
       const angle = Math.random() * Math.PI * 2;
       const r = Math.random() * NEST_RADIUS * 0.4;
       state.eggs.push({
@@ -74,6 +101,7 @@ export function startGame(canvas, onHudUpdate) {
         caste,
         hatchTick: state.tick + EGG_HATCH_TICKS,
       });
+      state.stats.eggsLaid += 1;
       return true;
     },
   };
